@@ -167,6 +167,9 @@
     .day-header.vault-header {
       border-left-color: var(--coral);
     }
+    .day-header.pledge-header {
+      border-left-color: #FFB26B;
+    }
     .day-date {
       font-size: 18px;
       font-weight: 700;
@@ -176,6 +179,51 @@
       font-size: 13px;
       color: var(--ocean-blue);
       font-weight: 600;
+    }
+
+    /* 行前宣誓卡片樣式 */
+    .pledge-card {
+      background: var(--card-bg);
+      border-radius: var(--radius-md);
+      padding: 18px 16px;
+      box-shadow: var(--shadow-card);
+      margin-bottom: 14px;
+      border: 1px solid rgba(0,0,0,0.03);
+    }
+    .pledge-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .pledge-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-main);
+      line-height: 1.5;
+      padding-bottom: 10px;
+      border-bottom: 1px dashed #F1EBE4;
+    }
+    .pledge-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+    .pledge-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #FFF4E5;
+      color: #FB8C00;
+      font-weight: 700;
+      font-size: 12px;
+      flex-shrink: 0;
+      margin-top: 1px;
     }
 
     .timeline {
@@ -493,7 +541,8 @@
 
   <div class="nav-tabs-wrapper">
     <div class="nav-tabs">
-      <button class="tab-btn active" onclick="switchTab('day1')">D1 抵達</button>
+      <button class="tab-btn active" onclick="switchTab('pledge')">📜 行前宣誓</button>
+      <button class="tab-btn" onclick="switchTab('day1')">D1 抵達</button>
       <button class="tab-btn" onclick="switchTab('day2')">D2 北部</button>
       <button class="tab-btn" onclick="switchTab('day3')">D3 那霸</button>
       <button class="tab-btn" onclick="switchTab('day4')">D4 糸滿返台</button>
@@ -503,8 +552,64 @@
     </div>
   </div>
 
+  <!-- 行前宣誓 Panel (獨立在 D1 前) -->
+  <div id="pledge" class="tab-panel active">
+    <div class="day-header pledge-header">
+      <div>
+        <div class="day-date">📜 行前宣誓</div>
+        <div class="day-theme">出遊開心・幸福同行</div>
+      </div>
+      <span style="font-size: 24px;">✨</span>
+    </div>
+
+    <div class="pledge-card">
+      <ul class="pledge-list">
+        <li class="pledge-item">
+          <span class="pledge-badge">1</span>
+          <span>絕對不說「難吃，不如在家裡煮」</span>
+        </li>
+        <li class="pledge-item">
+          <span class="pledge-badge">2</span>
+          <span>絕對不說「好貴，不如在台灣OOO」</span>
+        </li>
+        <li class="pledge-item">
+          <span class="pledge-badge">3</span>
+          <span>絕對不說「不怎麼樣，早知道就不來」</span>
+        </li>
+        <li class="pledge-item">
+          <span class="pledge-badge">4</span>
+          <span>要多說「出遊就是開心，今天的我好幸福」</span>
+        </li>
+        <li class="pledge-item">
+          <span class="pledge-badge">5</span>
+          <span>要多說「可以大家一起來沖繩真好！」</span>
+        </li>
+        <li class="pledge-item">
+          <span class="pledge-badge">6</span>
+          <span>當「累了走不動、身體不舒服」，絕對要說</span>
+        </li>
+        <li class="pledge-item">
+          <span class="pledge-badge">7</span>
+          <span>當「有想逛、想看、想吃的」，絕對要說</span>
+        </li>
+        <li class="pledge-item">
+          <span class="pledge-badge">8</span>
+          <span>行程可彈性調整，開心出門，愉快回家</span>
+        </li>
+        <li class="pledge-item">
+          <span class="pledge-badge">9</span>
+          <span>遇到突發狀況，優先解決，不責怪對方</span>
+        </li>
+        <li class="pledge-item">
+          <span class="pledge-badge">10</span>
+          <span>出遊就是幸福，下雨也浪漫、走錯路是體驗</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
   <!-- Day 1 Panel -->
-  <div id="day1" class="tab-panel active">
+  <div id="day1" class="tab-panel">
     <div class="day-header">
       <div>
         <div class="day-date">8/22 (五) 啟程與入住</div>
@@ -1059,6 +1164,19 @@
     </div>
 
     <div class="vault-card">
+      <div class="vault-title">🚙 租車資訊 / 預約憑證</div>
+      <div class="upload-zone" id="zone-car" onclick="triggerUpload('input-car')">
+        <span class="upload-icon">🚗</span>
+        <div class="upload-text">點擊上傳租車預約單、取車資訊或保險截圖</div>
+      </div>
+      <input type="file" id="input-car" accept="image/*" style="display: none;" onchange="handleImageUpload(event, 'zone-car', 'preview-car', 'img-car', 'saved_car')">
+      <div class="preview-container" id="preview-car">
+        <img id="img-car" src="" alt="Car Rental" onclick="openFullscreen(this)">
+        <button class="btn-remove-img" onclick="removeImage('zone-car', 'preview-car', 'input-car', 'saved_car')">✕</button>
+      </div>
+    </div>
+
+    <div class="vault-card">
       <div class="vault-title">✈️ 機票 / 電子登機證</div>
       <div class="upload-zone" id="zone-flight" onclick="triggerUpload('input-flight')">
         <span class="upload-icon">🛫</span>
@@ -1263,7 +1381,7 @@
       document.getElementById(tabId).classList.add('active');
       
       const buttons = document.querySelectorAll('.tab-btn');
-      const tabs = ['day1', 'day2', 'day3', 'day4', 'vault', 'maplink', 'checklist'];
+      const tabs = ['pledge', 'day1', 'day2', 'day3', 'day4', 'vault', 'maplink', 'checklist'];
       const index = tabs.indexOf(tabId);
       if (index !== -1 && buttons[index]) {
         buttons[index].classList.add('active');
@@ -1324,6 +1442,7 @@
     window.addEventListener('DOMContentLoaded', () => {
       const vaults = [
         { zoneId: 'zone-vjw', previewId: 'preview-vjw', imgId: 'img-vjw', key: 'saved_vjw' },
+        { zoneId: 'zone-car', previewId: 'preview-car', imgId: 'img-car', key: 'saved_car' },
         { zoneId: 'zone-flight', previewId: 'preview-flight', imgId: 'img-flight', key: 'saved_flight' },
         { zoneId: 'zone-hotel', previewId: 'preview-hotel', imgId: 'img-hotel', key: 'saved_hotel' },
         { zoneId: 'zone-ticket', previewId: 'preview-ticket', imgId: 'img-ticket', key: 'saved_ticket' }
