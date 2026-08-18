@@ -433,7 +433,7 @@
       background: #000;
       text-align: center;
     }
-    .preview-container img {
+    .preview-content img {
       max-width: 100%;
       height: auto;
       max-height: 400px;
@@ -441,6 +441,33 @@
       margin: 0 auto;
       object-fit: contain;
       cursor: zoom-in;
+    }
+    .pdf-box {
+      background: #fff;
+    }
+    .pdf-frame {
+      width: 100%;
+      height: 420px;
+      border: none;
+      display: block;
+      background: #525659;
+    }
+    .pdf-open-link {
+      display: block;
+      padding: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ocean-blue);
+      background: #F8FAFC;
+      text-decoration: none;
+      border-top: 1px solid #EFEBE4;
+    }
+    .pdf-filename {
+      display: block;
+      padding: 8px 10px 0;
+      font-size: 11.5px;
+      color: #A0AEC0;
+      background: #fff;
     }
     .btn-remove-img {
       position: absolute;
@@ -454,6 +481,7 @@
       height: 28px;
       cursor: pointer;
       font-weight: bold;
+      z-index: 5;
     }
 
     .checklist-card {
@@ -1145,7 +1173,7 @@
     <div class="day-header vault-header">
       <div>
         <div class="day-date">🎟️ 票券與 VJW 截圖專區</div>
-        <div class="day-theme">免翻相簿・上傳後自動保存在本機</div>
+        <div class="day-theme">支援上傳圖片或 PDF・自動保存在本機瀏覽器</div>
       </div>
       <span style="font-size: 24px;">📱</span>
     </div>
@@ -1153,65 +1181,65 @@
     <div class="vault-card">
       <div class="vault-title">🇯🇵 Visit Japan Web (QR Code 截圖)</div>
       <div class="upload-zone" id="zone-vjw" onclick="triggerUpload('input-vjw')">
-        <span class="upload-icon">📷</span>
-        <div class="upload-text">點擊上傳 / 替換 VJW 入境審查 QR Code</div>
+        <span class="upload-icon">📎</span>
+        <div class="upload-text">點擊上傳圖片或 PDF</div>
       </div>
-      <input type="file" id="input-vjw" accept="image/*" style="display: none;" onchange="handleImageUpload(event, 'zone-vjw', 'preview-vjw', 'img-vjw', 'saved_vjw')">
+      <input type="file" id="input-vjw" accept="image/*,application/pdf" style="display: none;" onchange="handleFileUpload(event, 'zone-vjw', 'preview-vjw', 'content-vjw', 'saved_vjw')">
       <div class="preview-container" id="preview-vjw">
-        <img id="img-vjw" src="" alt="VJW" onclick="openFullscreen(this)">
-        <button class="btn-remove-img" onclick="removeImage('zone-vjw', 'preview-vjw', 'input-vjw', 'saved_vjw')">✕</button>
+        <div class="preview-content" id="content-vjw"></div>
+        <button class="btn-remove-img" onclick="removeFile('zone-vjw', 'preview-vjw', 'input-vjw', 'saved_vjw')">✕</button>
       </div>
     </div>
 
     <div class="vault-card">
       <div class="vault-title">🚙 租車資訊 / 預約憑證</div>
       <div class="upload-zone" id="zone-car" onclick="triggerUpload('input-car')">
-        <span class="upload-icon">🚗</span>
-        <div class="upload-text">點擊上傳租車預約單、取車資訊或保險截圖</div>
+        <span class="upload-icon">📎</span>
+        <div class="upload-text">點擊上傳租車預約單、取車資訊或保險（圖片或 PDF）</div>
       </div>
-      <input type="file" id="input-car" accept="image/*" style="display: none;" onchange="handleImageUpload(event, 'zone-car', 'preview-car', 'img-car', 'saved_car')">
+      <input type="file" id="input-car" accept="image/*,application/pdf" style="display: none;" onchange="handleFileUpload(event, 'zone-car', 'preview-car', 'content-car', 'saved_car')">
       <div class="preview-container" id="preview-car">
-        <img id="img-car" src="" alt="Car Rental" onclick="openFullscreen(this)">
-        <button class="btn-remove-img" onclick="removeImage('zone-car', 'preview-car', 'input-car', 'saved_car')">✕</button>
+        <div class="preview-content" id="content-car"></div>
+        <button class="btn-remove-img" onclick="removeFile('zone-car', 'preview-car', 'input-car', 'saved_car')">✕</button>
       </div>
     </div>
 
     <div class="vault-card">
       <div class="vault-title">✈️ 機票 / 電子登機證</div>
       <div class="upload-zone" id="zone-flight" onclick="triggerUpload('input-flight')">
-        <span class="upload-icon">🛫</span>
-        <div class="upload-text">點擊上傳機票確認單截圖</div>
+        <span class="upload-icon">📎</span>
+        <div class="upload-text">點擊上傳機票確認單（圖片或 PDF）</div>
       </div>
-      <input type="file" id="input-flight" accept="image/*" style="display: none;" onchange="handleImageUpload(event, 'zone-flight', 'preview-flight', 'img-flight', 'saved_flight')">
+      <input type="file" id="input-flight" accept="image/*,application/pdf" style="display: none;" onchange="handleFileUpload(event, 'zone-flight', 'preview-flight', 'content-flight', 'saved_flight')">
       <div class="preview-container" id="preview-flight">
-        <img id="img-flight" src="" alt="Flight" onclick="openFullscreen(this)">
-        <button class="btn-remove-img" onclick="removeImage('zone-flight', 'preview-flight', 'input-flight', 'saved_flight')">✕</button>
+        <div class="preview-content" id="content-flight"></div>
+        <button class="btn-remove-img" onclick="removeFile('zone-flight', 'preview-flight', 'input-flight', 'saved_flight')">✕</button>
       </div>
     </div>
 
     <div class="vault-card">
       <div class="vault-title">🏨 Tokyu Stay 那霸 預約憑證</div>
       <div class="upload-zone" id="zone-hotel" onclick="triggerUpload('input-hotel')">
-        <span class="upload-icon">🛌</span>
-        <div class="upload-text">點擊上傳訂房確認單截圖</div>
+        <span class="upload-icon">📎</span>
+        <div class="upload-text">點擊上傳訂房確認單（圖片或 PDF）</div>
       </div>
-      <input type="file" id="input-hotel" accept="image/*" style="display: none;" onchange="handleImageUpload(event, 'zone-hotel', 'preview-hotel', 'img-hotel', 'saved_hotel')">
+      <input type="file" id="input-hotel" accept="image/*,application/pdf" style="display: none;" onchange="handleFileUpload(event, 'zone-hotel', 'preview-hotel', 'content-hotel', 'saved_hotel')">
       <div class="preview-container" id="preview-hotel">
-        <img id="img-hotel" src="" alt="Hotel" onclick="openFullscreen(this)">
-        <button class="btn-remove-img" onclick="removeImage('zone-hotel', 'preview-hotel', 'input-hotel', 'saved_hotel')">✕</button>
+        <div class="preview-content" id="content-hotel"></div>
+        <button class="btn-remove-img" onclick="removeFile('zone-hotel', 'preview-hotel', 'input-hotel', 'saved_hotel')">✕</button>
       </div>
     </div>
 
     <div class="vault-card">
       <div class="vault-title">🎟️ 景點門票 QR Code</div>
       <div class="upload-zone" id="zone-ticket" onclick="triggerUpload('input-ticket')">
-        <span class="upload-icon">🎫</span>
-        <div class="upload-text">點擊上傳水族館等門票截圖</div>
+        <span class="upload-icon">📎</span>
+        <div class="upload-text">點擊上傳水族館等門票（圖片或 PDF）</div>
       </div>
-      <input type="file" id="input-ticket" accept="image/*" style="display: none;" onchange="handleImageUpload(event, 'zone-ticket', 'preview-ticket', 'img-ticket', 'saved_ticket')">
+      <input type="file" id="input-ticket" accept="image/*,application/pdf" style="display: none;" onchange="handleFileUpload(event, 'zone-ticket', 'preview-ticket', 'content-ticket', 'saved_ticket')">
       <div class="preview-container" id="preview-ticket">
-        <img id="img-ticket" src="" alt="Ticket" onclick="openFullscreen(this)">
-        <button class="btn-remove-img" onclick="removeImage('zone-ticket', 'preview-ticket', 'input-ticket', 'saved_ticket')">✕</button>
+        <div class="preview-content" id="content-ticket"></div>
+        <button class="btn-remove-img" onclick="removeFile('zone-ticket', 'preview-ticket', 'input-ticket', 'saved_ticket')">✕</button>
       </div>
     </div>
   </div>
@@ -1399,59 +1427,79 @@
       });
     });
 
-    function triggerUpload(inputId) {
-      document.getElementById(inputId).click();
-    }
-
-    function handleImageUpload(event, zoneId, previewId, imgId, storageKey) {
-      const file = event.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          const dataUrl = e.target.result;
-          displayImage(zoneId, previewId, imgId, dataUrl);
-          try {
-            localStorage.setItem(storageKey, dataUrl);
-          } catch(err) {
-            console.log('圖片過大無法存入 localStorage');
-          }
-        }
-        reader.readAsDataURL(file);
-      }
-    }
-
-    function displayImage(zoneId, previewId, imgId, src) {
-      document.getElementById(imgId).src = src;
-      document.getElementById(zoneId).style.display = 'none';
-      document.getElementById(previewId).style.display = 'block';
-    }
-
-    function removeImage(zoneId, previewId, inputId, storageKey) {
-      document.getElementById(inputId).value = '';
-      document.getElementById(previewId).style.display = 'none';
-      document.getElementById(zoneId).style.display = 'block';
-      localStorage.removeItem(storageKey);
-    }
-
     function openFullscreen(img) {
       if (img.requestFullscreen) {
         img.requestFullscreen();
       }
     }
 
+    function triggerUpload(inputId) {
+      document.getElementById(inputId).click();
+    }
+
+    function handleFileUpload(event, zoneId, previewId, contentId, storageKey) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const dataUrl = e.target.result;
+        renderPreview(contentId, dataUrl, file.name);
+        document.getElementById(zoneId).style.display = 'none';
+        document.getElementById(previewId).style.display = 'block';
+        try {
+          localStorage.setItem(storageKey, JSON.stringify({ dataUrl, name: file.name }));
+        } catch (err) {
+          console.log('檔案過大，無法儲存在瀏覽器本機（localStorage 有容量上限，建議壓縮 PDF 或改上傳較小的截圖）');
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function renderPreview(contentId, dataUrl, fileName) {
+      const container = document.getElementById(contentId);
+      const isPDF = dataUrl.startsWith('data:application/pdf');
+
+      if (isPDF) {
+        container.innerHTML =
+          '<div class="pdf-box">' +
+            '<iframe class="pdf-frame" src="' + dataUrl + '"></iframe>' +
+            '<span class="pdf-filename">📄 ' + (fileName || 'document.pdf') + '</span>' +
+            '<a class="pdf-open-link" href="' + dataUrl + '" download="' + (fileName || 'document.pdf') + '">⬇️ 開啟 / 下載 PDF</a>' +
+          '</div>';
+      } else {
+        container.innerHTML = '<img src="' + dataUrl + '" alt="附件" onclick="openFullscreen(this)">';
+      }
+    }
+
+    function removeFile(zoneId, previewId, inputId, storageKey) {
+      document.getElementById(inputId).value = '';
+      document.getElementById(previewId).style.display = 'none';
+      document.getElementById(zoneId).style.display = 'block';
+      document.querySelector('#' + previewId + ' .preview-content').innerHTML = '';
+      localStorage.removeItem(storageKey);
+    }
+
     window.addEventListener('DOMContentLoaded', () => {
       const vaults = [
-        { zoneId: 'zone-vjw', previewId: 'preview-vjw', imgId: 'img-vjw', key: 'saved_vjw' },
-        { zoneId: 'zone-car', previewId: 'preview-car', imgId: 'img-car', key: 'saved_car' },
-        { zoneId: 'zone-flight', previewId: 'preview-flight', imgId: 'img-flight', key: 'saved_flight' },
-        { zoneId: 'zone-hotel', previewId: 'preview-hotel', imgId: 'img-hotel', key: 'saved_hotel' },
-        { zoneId: 'zone-ticket', previewId: 'preview-ticket', imgId: 'img-ticket', key: 'saved_ticket' }
+        { zoneId: 'zone-vjw', previewId: 'preview-vjw', contentId: 'content-vjw', key: 'saved_vjw' },
+        { zoneId: 'zone-car', previewId: 'preview-car', contentId: 'content-car', key: 'saved_car' },
+        { zoneId: 'zone-flight', previewId: 'preview-flight', contentId: 'content-flight', key: 'saved_flight' },
+        { zoneId: 'zone-hotel', previewId: 'preview-hotel', contentId: 'content-hotel', key: 'saved_hotel' },
+        { zoneId: 'zone-ticket', previewId: 'preview-ticket', contentId: 'content-ticket', key: 'saved_ticket' }
       ];
 
       vaults.forEach(v => {
         const saved = localStorage.getItem(v.key);
         if (saved) {
-          displayImage(v.zoneId, v.previewId, v.imgId, saved);
+          try {
+            const parsed = JSON.parse(saved);
+            renderPreview(v.contentId, parsed.dataUrl, parsed.name);
+            document.getElementById(v.zoneId).style.display = 'none';
+            document.getElementById(v.previewId).style.display = 'block';
+          } catch (err) {
+            console.log('讀取已儲存的檔案失敗');
+          }
         }
       });
     });
